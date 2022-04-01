@@ -37,75 +37,88 @@ const render = () => {
     const { text, number, date } = element;
     resultSpan.innerText = parseInt(resultSpan.innerText) + parseInt(number);
     const container = document.createElement("div");
-    const numBList = document.createElement("span");
-    const shopName = document.createElement("span");
-    const rData = document.createElement("span");
-    const summ = document.createElement("span");
-    const imgEdit = document.createElement("img");
-    const imgDelete = document.createElement("img");
     container.className = "dIgrid item";
+    const numBList = document.createElement("span");
     numBList.innerText = idx + 1 + ")";
+    numBList.className = "counter";
+    const shopName = document.createElement("span");
     shopName.innerText = element.text;
-    console.log(typeof date, date);
+    shopName.className = "shopName";
+    const rData = document.createElement("span");
+    rData.className = "date";
+    const summ = document.createElement("span");
+    summ.className = "countNum";
+    summ.innerText = element.number + " p.";
+    const wrapForControl = document.createElement("div");
+    wrapForControl.className = "controlItems dflex";
+    const imgEdit = document.createElement("img");
+    imgEdit.alt = "";
+    imgEdit.title = "Редактировать запись";
+    imgEdit.src = "imgs/edit.svg";
+    imgEdit.className = "imgEdit";
+    const imgDelete = document.createElement("img");
+    imgDelete.src = "imgs/trash.svg";
+    imgDelete.alt = "";
+    imgDelete.title = "Удалить запись";
+    imgDelete.className = "imgDelete";
     if (date) {
-    rData.innerText = date;
-  } else {
-    const newDate = new Date();
-    rData.innerText = newDate.getDate() + "." + newDate.getMonth() + "." + newDate.getFullYear();
-  }
-  summ.innerText = element.number + " p.";
-  imgEdit.alt = "";
-  imgEdit.title = "Редактировать запись";
-  imgEdit.src = "imgs/edit.svg";
-  imgDelete.src = "imgs/trash.svg";
-  imgDelete.alt = "";
-  imgDelete.title = "Удалить запись";
-  container.appendChild(numBList);
-  container.appendChild(shopName);
-  container.appendChild(rData);
-  container.appendChild(summ);
-  container.appendChild(imgEdit);
-  container.appendChild(imgDelete);
-  outputCont.appendChild(container);
-  imgEdit.onclick = () => {
-    const numBListInner = numBList.cloneNode(true);
-    const wrapForEdit = document.createElement("div");
-    const inpForTitle = document.createElement("input");
-    const inpForNumValue = document.createElement("input");
-    const inpForDateEdit = document.createElement("input");
-    const buttConfirm = document.createElement("button");
-    const buttCancelEdit = document.createElement("button");
-    wrapForEdit.className = "wrapForEdit dflex";
-    inpForTitle.placeholder = "Ведите новое название места";
-    inpForTitle.title = "Ведите новое название места";
-    inpForTitle.value = text;
-    inpForNumValue.placeholder = "Ведите новую сумму";
-    inpForNumValue.title = "Ведите новую сумму";
-    inpForNumValue.value = number;
-    inpForDateEdit.placeholder = "Ведите новую дату";
-    inpForDateEdit.title = "Изменить дату";
-    inpForDateEdit.value = rData.cloneNode(true).innerText;
-    buttConfirm.innerText = "Save";
-    buttCancelEdit.innerText = "Cancel";
-    wrapForEdit.appendChild(numBListInner);
-    wrapForEdit.appendChild(inpForTitle);
-    wrapForEdit.appendChild(inpForNumValue);
-    wrapForEdit.appendChild(inpForDateEdit);
-    wrapForEdit.appendChild(buttConfirm);
-    wrapForEdit.appendChild(buttCancelEdit);
-    container.appendChild(wrapForEdit);
-    inpForNumValue.focus();
-    buttConfirm.onclick = () => {
-      saveChanges(inpForTitle.value, inpForNumValue.value, idx, inpForDateEdit.value);
+      rData.innerText = date;
+    } else {
+      const newDate = new Date();
+      rData.innerText = newDate.getDate() + "." + newDate.getMonth() + "." + newDate.getFullYear();
     }
-    buttCancelEdit.onclick = () => {
-      container.removeChild(wrapForEdit);
+    container.appendChild(numBList);
+    container.appendChild(shopName);
+    container.appendChild(rData);
+    container.appendChild(summ);
+    wrapForControl.appendChild(imgEdit);
+    wrapForControl.appendChild(imgDelete);
+    container.appendChild(wrapForControl);
+    outputCont.appendChild(container);
+    imgEdit.onclick = () => {
+      const numBListInner = numBList.cloneNode(true);
+      const wrapForEdit = document.createElement("div");
+      wrapForEdit.className = "wrapForEdit dflex";
+      const inpForTitle = document.createElement("input");
+      inpForTitle.placeholder = "Ведите новое название места";
+      inpForTitle.title = "Ведите новое название места";
+      inpForTitle.value = text;
+      inpForTitle.className = "inpForTitle";
+      const inpForNumValue = document.createElement("input");
+      inpForNumValue.placeholder = "Ведите новую сумму";
+      inpForNumValue.title = "Ведите новую сумму";
+      inpForNumValue.value = number;
+      inpForNumValue.className = "inpForNumValue";
+      const inpForDateEdit = document.createElement("input");
+      inpForDateEdit.placeholder = "Ведите новую дату";
+      inpForDateEdit.title = "Изменить дату";
+      inpForDateEdit.value = rData.cloneNode(true).innerText;
+      inpForDateEdit.className = "inpForDateEdit";
+      const buttConfirm = document.createElement("button");
+      buttConfirm.innerText = "Save";
+      buttConfirm.localName = "buttConfirm";
+      const buttCancelEdit = document.createElement("button");
+      buttCancelEdit.innerText = "Cancel";
+      buttCancelEdit.className = "buttCancelEdit";
+      wrapForEdit.appendChild(numBListInner);
+      wrapForEdit.appendChild(inpForTitle);
+      wrapForEdit.appendChild(inpForNumValue);
+      wrapForEdit.appendChild(inpForDateEdit);
+      wrapForEdit.appendChild(buttConfirm);
+      wrapForEdit.appendChild(buttCancelEdit);
+      container.appendChild(wrapForEdit);
+      inpForNumValue.focus();
+      buttConfirm.onclick = () => {
+        saveChanges(inpForTitle.value, inpForNumValue.value, idx, inpForDateEdit.value);
+      }
+      buttCancelEdit.onclick = () => {
+        container.removeChild(wrapForEdit);
+      }
     }
-  }
-  imgDelete.onclick = () => {
-    delItemOfSpend(idx);
-  }
-});
+    imgDelete.onclick = () => {
+      delItemOfSpend(idx);
+    }
+  });
 }
 
 const saveChanges = (title, numbr, index, date) => {

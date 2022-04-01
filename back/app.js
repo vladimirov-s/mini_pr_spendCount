@@ -3,7 +3,9 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 
-app.get("/", (req, res) => {
+app.get("/createCount", (req, res) => {
+  const body = req.body;
+  
   res.send("Работаем, чувак");
 });
 

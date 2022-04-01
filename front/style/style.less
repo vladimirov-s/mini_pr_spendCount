@@ -33,11 +33,13 @@ h1 {
   text-align: center;
   font-weight: 100;
   font-size: 3.5rem;
+  margin-top: 0;
 }
 
 #wrapper {
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: 75rem;
+  min-width: 500px;
   background-color: @wrapBG;
 }
 
@@ -45,7 +47,26 @@ h1 {
   width: calc(100% - 5.4rem);
   margin: 3.5rem auto 0 auto;
   grid-template-columns: 6fr 3fr 3fr;
+  grid-template-rows: 1fr 1fr;
   grid-gap: 0 1rem;
+  grid-template-areas: "a b c d";
+}
+
+#control1 {
+  grid-column: a;
+}
+
+#control2 {
+  grid-column: b;
+}
+
+#control3 {
+  grid-column: c;
+  align-items: end;
+}
+
+.controlItems {
+  justify-content: space-around;
 }
 
 button {
@@ -59,6 +80,7 @@ button {
 input {
   outline: none;
   font-size: 1.1rem;
+  min-width: 6rem;
 }
 
 input,
@@ -67,7 +89,10 @@ button {
 }
 
 .fields {
+  align-items: center;
+
   span {
+    flex: 100%;
     font-size: 1.44rem;
     white-space: nowrap;
   }
@@ -78,16 +103,13 @@ button {
     width: 100%;
     max-width: 29.5rem;
     margin-top: -.9rem;
-    line-height: 2.2;
+    line-height: 3.8;
   }
 
   button {
-    line-height: 3;
-  }
-
-  button {
-    margin: 2.2rem 0 0 1.3rem;
     padding: 0 2.4rem;
+    line-height: 3.2;
+    margin-bottom: .5rem;
     border: 0;
     letter-spacing: 1px;
     font-weight: 100;
@@ -98,7 +120,7 @@ button {
 }
 
 #result {
-  grid-column: 3;
+  grid-column: c;
   font-size: 2.2rem;
   margin-top: 2.5rem;
   white-space: nowrap;
@@ -108,12 +130,7 @@ button {
   img {
     height: 30px;
     padding: 5px;
-    margin: 0 0 0 auto;
     cursor: pointer;
-
-    &:nth-child(6) {
-      margin: 0 auto 0 0;
-    }
 
     &:hover {
       box-shadow: @shadow;
@@ -135,7 +152,8 @@ button {
 }
 
 .item {
-  grid-template-columns: 1fr 8fr 4fr 3fr 1fr 1fr;
+  grid-template-columns: 1fr 8fr 4fr 3fr 1fr;
+  grid-template-areas: "a b c d e";
   width: 100%;
   position: relative;
 
@@ -144,6 +162,7 @@ button {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    min-width: 3rem
   }
 
   button,
@@ -158,13 +177,118 @@ button {
   }
 
   #result {
-    grid-column: 2;
+    grid-column: b;
+  }
+
+  .item {
+    span {
+      font-size: 2.2rem;
+    }
   }
 }
 
 @media (max-width:850px) {
   #calculations {
-    grid-template-columns: 100%;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: "a b c";
+  }
+
+  #control1 {
+    grid-column: a/b;
+    grid-row: 1;
+  }
+
+  #control2 {
+    grid-column: a/b;
+    grid-row: 2;
+  }
+
+  #control3 {
+    grid-column: a/b;
+    grid-row: 3;
+  }
+
+  #result {
+    grid-column: b/c;
+    grid-row: 3;
+  }
+
+  .item {
+    grid-template-columns: 1fr 7fr 4fr 3fr 1fr;
+    grid-template-areas: "a b c d e";
+
+    span {
+      font-size: 2rem;
+    }
+  }
+}
+
+
+@media (max-width:600px) {
+  #calculations {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: "a b";
+  }
+
+  .item {
+    grid-template-columns: 1fr 6fr 3fr;
+    grid-template-areas: "a b c";
+
+    .date,
+    .countNum {
+      text-overflow: clip;
+    }
+
+    span {
+      font-size: 1.8rem;
+    }
+  }
+
+  .counter {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .shopName {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .date {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .countNum {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
+  .controlItems {
+    grid-column: 3;
+    grid-row: 3;
+  }
+
+  .wrapForEdit {
+    grid-row: 2;
+    flex-wrap: wrap;
+
+    button {
+      flex: 20%;
+    }
+  }
+
+  .inpForTitle {
+    flex: 25%
+  }
+
+  .inpForNumValue {
+    flex: 25%;
+  }
+
+  .inpForDateEdit {
+    flex: 25%;
   }
 }
