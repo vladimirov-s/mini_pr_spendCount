@@ -1,6 +1,6 @@
 @reject: 0 0 5px 1px #ff00008c;
-@wrapBG: #657580;
-@butCol: #4b8569;
+@wrapBG: #e2f3ff;
+@butCol: #79caab;
 @radius: 5px;
 @shadow: 0 0 15px 1px #15151569;
 
@@ -24,9 +24,6 @@
   display: grid;
 }
 
-input {
-  outline: none;
-}
 
 body {
   background-color: lighten(@wrapBG, 10%);
@@ -47,47 +44,56 @@ h1 {
 #calculations {
   width: calc(100% - 5.4rem);
   margin: 3.5rem auto 0 auto;
-  grid-template-columns: 48% 27.5% 25%;
+  grid-template-columns: 6fr 3fr 3fr;
   grid-gap: 0 1rem;
 }
 
 button {
   font-size: 1.4rem;
+
+  &:hover {
+    box-shadow: @shadow;
+  }
+}
+
+input {
+  outline: none;
+  font-size: 1.1rem;
+}
+
+input,
+button {
+  border-radius: @radius;
 }
 
 .fields {
   span {
-    margin-bottom: .5rem;
     font-size: 1.44rem;
     white-space: nowrap;
   }
 
   input {
-    border-radius: @radius;
     outline: none;
-    border: 0;
+    border: 1px solid #55555588;
     width: 100%;
     max-width: 29.5rem;
+    margin-top: -.9rem;
+    line-height: 2.2;
   }
 
-  button,
-  input {
+  button {
     line-height: 3;
   }
 
   button {
-    margin: 2.2rem 0 0 1.7rem;
+    margin: 2.2rem 0 0 1.3rem;
     padding: 0 2.4rem;
-    border-radius: @radius;
     border: 0;
     letter-spacing: 1px;
     font-weight: 100;
     background-color: @butCol;
     cursor: pointer;
 
-    &:hover {
-      box-shadow: @shadow;
-    }
   }
 }
 
@@ -121,7 +127,7 @@ button {
   justify-content: space-between;
   position: absolute;
   width: 100%;
-  background-color: grey;
+  background-color: @wrapBG;
 
   button {
     min-width: 90px;
@@ -139,10 +145,26 @@ button {
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  button,
+  input {
+    border-color: hsla(197, 77%, 63%, 0.336);
+  }
 }
 
-@media(max-width:1100px) {
+@media(max-width:1200px) {
   #calculations {
     width: 100%;
+  }
+
+  #result {
+    grid-column: 2;
+  }
+}
+
+@media (max-width:850px) {
+  #calculations {
+    grid-template-columns: 100%;
+    grid-template-rows: 1fr 1fr 1fr;
   }
 }
