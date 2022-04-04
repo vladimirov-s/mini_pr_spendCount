@@ -13,8 +13,10 @@
 .dGrid {
   display: grid;
 }
-body {
-  background-color: #ffffff;
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #aaa;
+  }
 }
 h1 {
   text-align: center;

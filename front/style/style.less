@@ -24,9 +24,10 @@
   display: grid;
 }
 
-
-body {
-  background-color: lighten(@wrapBG, 10%);
+@media(prefers-color-scheme:dark) {
+  body {
+    background-color: #aaa;
+  }
 }
 
 h1 {

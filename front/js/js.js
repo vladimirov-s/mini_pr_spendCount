@@ -3,133 +3,179 @@ const addButton = document.getElementById("addSpend");
 const outputCont = document.getElementById("refData");
 const InputswhereWasSpend = document.querySelectorAll("#calculations input");
 const resultSpan = document.getElementById("resultSpan");
-window.onload = () => {
-  let strFromStorage = sessionStorage.getItem("spendingCount");
-  if (strFromStorage) {
-    arrForCounts = JSON.parse(strFromStorage);
-    render();
-  }
+const url = "http://localhost:2009";
+window.onload = async () => {
+  const respons = await fetch(`${url}/getCounts`, {
+    method: "GET"
+  });
+  let result = await respons.json();
+  arrForCounts = result.data;
+  render();
 }
+
 addButton.onclick = () => {
   const objConts = {};
+  let flag = true;
   InputswhereWasSpend.forEach((element, i) => {
-    if (i === 0 && element.value !== "") {
-      objConts.text = element.value;
-    } else if (i === 1 && element.value !== "") {
-      objConts.number = element.value;
-      arrForCounts.push(objConts);
-      sessionStorage.setItem("spendingCount", JSON.stringify(arrForCounts));
-      render();
+    if (element.value && flag) {
+      if (i === 0) {
+        objConts.title = element.value;
+      } else if (i == 1) {
+        objConts.count = element.value;
+        const newDate = new Date();
+        objConts.date = newDate.getDate() + "." + newDate.getMonth() + "." + newDate.getFullYear();
+        createOneCount(objConts);
+      }
     } else {
-      element.classList.add("animate__shakeX", "redBoxSh");
+      flag = false;
     }
   });
 }
-InputswhereWasSpend.forEach(element => {
-  element.onkeyup = () => {
-    element.classList.remove("animate__shakeX", "redBoxSh");
-  }
-});
+const createOneCount = async (objConts) => {
+  const responce = await fetch(`${url}/createCount`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+      "Access-Control-Allow-Origin": "*"
+    },
+    body: JSON.stringify(objConts)
+  })
+  let result = await responce.json();
+  arrForCounts = result.data;
+  render();
+}
+
 const render = () => {
+  InputswhereWasSpend.forEach(element => {
+    element.value = "";
+  });
   outputCont.innerHTML = "";
   resultSpan.innerText = 0;
-  arrForCounts.forEach((element, idx) => {
-    const { text, number, date } = element;
-    resultSpan.innerText = parseInt(resultSpan.innerText) + parseInt(number);
+  arrForCounts.map((element, idx) => {
+    const { title, count, date, _id } = element;
+    resultSpan.innerText = parseInt(resultSpan.innerText) + parseInt(count);
     const container = document.createElement("div");
     container.className = "dIgrid item";
+    container.id = `container-${idx + 1}`;
     const numBList = document.createElement("span");
     numBList.innerText = idx + 1 + ")";
     numBList.className = "counter";
+    numBList.id = `numBList-${idx + 1}`;
+    container.appendChild(numBList);
     const shopName = document.createElement("span");
-    shopName.innerText = element.text;
+    shopName.innerText = title
     shopName.className = "shopName";
+    shopName.id = `shopName-${idx + 1}`;
+    container.appendChild(shopName);
     const rData = document.createElement("span");
     rData.className = "date";
+    rData.title = "Дата";
+    rData.id = `rData-${idx + 1}`;
+    container.appendChild(rData);
     const summ = document.createElement("span");
     summ.className = "countNum";
-    summ.innerText = element.number + " p.";
+    summ.innerText = element.count + " p.";
+    summ.id = `summ-${idx + 1}`;
+    container.appendChild(summ);
     const wrapForControl = document.createElement("div");
     wrapForControl.className = "controlItems dflex";
+    wrapForControl.id = `wrapForControl-${idx + 1}`;
+    container.appendChild(wrapForControl);
     const imgEdit = document.createElement("img");
     imgEdit.alt = "";
     imgEdit.title = "Редактировать запись";
     imgEdit.src = "imgs/edit.svg";
     imgEdit.className = "imgEdit";
+    imgEdit.id = `imgEdit-${idx + 1}`;
+    wrapForControl.appendChild(imgEdit);
     const imgDelete = document.createElement("img");
     imgDelete.src = "imgs/trash.svg";
     imgDelete.alt = "";
     imgDelete.title = "Удалить запись";
     imgDelete.className = "imgDelete";
-    if (date) {
-      rData.innerText = date;
-    } else {
-      const newDate = new Date();
-      rData.innerText = newDate.getDate() + "." + newDate.getMonth() + "." + newDate.getFullYear();
-    }
-    container.appendChild(numBList);
-    container.appendChild(shopName);
-    container.appendChild(rData);
-    container.appendChild(summ);
-    wrapForControl.appendChild(imgEdit);
+    imgDelete.id = `imgDelete-${idx + 1}`;
+    rData.innerText = date;
     wrapForControl.appendChild(imgDelete);
-    container.appendChild(wrapForControl);
     outputCont.appendChild(container);
     imgEdit.onclick = () => {
-      const numBListInner = numBList.cloneNode(true);
-      const wrapForEdit = document.createElement("div");
-      wrapForEdit.className = "wrapForEdit dflex";
-      const inpForTitle = document.createElement("input");
-      inpForTitle.placeholder = "Ведите новое название места";
-      inpForTitle.title = "Ведите новое название места";
-      inpForTitle.value = text;
-      inpForTitle.className = "inpForTitle";
-      const inpForNumValue = document.createElement("input");
-      inpForNumValue.placeholder = "Ведите новую сумму";
-      inpForNumValue.title = "Ведите новую сумму";
-      inpForNumValue.value = number;
-      inpForNumValue.className = "inpForNumValue";
-      const inpForDateEdit = document.createElement("input");
-      inpForDateEdit.placeholder = "Ведите новую дату";
-      inpForDateEdit.title = "Изменить дату";
-      inpForDateEdit.value = rData.cloneNode(true).innerText;
-      inpForDateEdit.className = "inpForDateEdit";
-      const buttConfirm = document.createElement("button");
-      buttConfirm.innerText = "Save";
-      buttConfirm.localName = "buttConfirm";
-      const buttCancelEdit = document.createElement("button");
-      buttCancelEdit.innerText = "Cancel";
-      buttCancelEdit.className = "buttCancelEdit";
-      wrapForEdit.appendChild(numBListInner);
-      wrapForEdit.appendChild(inpForTitle);
-      wrapForEdit.appendChild(inpForNumValue);
-      wrapForEdit.appendChild(inpForDateEdit);
-      wrapForEdit.appendChild(buttConfirm);
-      wrapForEdit.appendChild(buttCancelEdit);
-      container.appendChild(wrapForEdit);
-      inpForNumValue.focus();
-      buttConfirm.onclick = () => {
-        saveChanges(inpForTitle.value, inpForNumValue.value, idx, inpForDateEdit.value);
-      }
-      buttCancelEdit.onclick = () => {
-        container.removeChild(wrapForEdit);
-      }
+      imgEditOnclick(numBList, title, count, rData, container, _id, idx);
+
     }
     imgDelete.onclick = () => {
-      delItemOfSpend(idx);
+      delItemOfSpend(element);
     }
   });
 }
+const imgEditOnclick = (numBList, title, count, rData, container, id, idx) => {
+  const numBListInner = numBList.cloneNode(true);
+  const wrapForEdit = document.createElement("div");
+  wrapForEdit.className = "wrapForEdit dflex";
+  wrapForEdit.appendChild(numBListInner);
+  const inpForTitle = document.createElement("input");
+  inpForTitle.placeholder = "Ведите новое название места";
+  inpForTitle.title = "Ведите новое название места";
+  inpForTitle.value = title;
+  inpForTitle.className = "inpForTitle";
+  wrapForEdit.appendChild(inpForTitle);
+  const inpForNumValue = document.createElement("input");
+  inpForNumValue.placeholder = "Ведите новую сумму";
+  inpForNumValue.title = "Ведите новую сумму";
+  inpForNumValue.value = count;
+  inpForNumValue.className = "inpForNumValue";
+  wrapForEdit.appendChild(inpForNumValue);
+  const inpForDateEdit = document.createElement("input");
+  inpForDateEdit.placeholder = "Ведите новую дату";
+  inpForDateEdit.title = "Изменить дату";
+  inpForDateEdit.value = rData.cloneNode(true).innerText;
+  inpForDateEdit.className = "inpForDateEdit";
+  wrapForEdit.appendChild(inpForDateEdit);
+  const buttConfirm = document.createElement("button");
+  buttConfirm.innerText = "Save";
+  buttConfirm.localName = "buttConfirm";
+  wrapForEdit.appendChild(buttConfirm);
+  const buttCancelEdit = document.createElement("button");
+  buttCancelEdit.innerText = "Cancel";
+  buttCancelEdit.className = "buttCancelEdit";
+  wrapForEdit.appendChild(buttCancelEdit);
+  container.appendChild(wrapForEdit);
+  inpForNumValue.focus();
+  buttConfirm.onclick = () => {
+    arrForCounts[idx].date = inpForDateEdit.value;
+    arrForCounts[idx].count = inpForNumValue.value;
+    arrForCounts[idx].title = inpForTitle.value;
+    saveChanges(idx);
+  }
+  buttCancelEdit.onclick = () => {
+    container.removeChild(wrapForEdit);
+  }
+}
 
-const saveChanges = (title, numbr, index, date) => {
-  arrForCounts[index].text = title;
-  arrForCounts[index].number = numbr;
-  arrForCounts[index].date = date;
-  sessionStorage.setItem("spendingCount", JSON.stringify(arrForCounts));
+const saveChanges = async (id) => {
+  console.log(arrForCounts[id]);
+  const responce = await fetch(`${url}/updateCont`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+      "Access-Control-Allow-Origin": "*"
+    },
+    body: JSON.stringify({
+      _id: arrForCounts[id]._id,
+      title: arrForCounts[id].title,
+      count: arrForCounts[id].count,
+      date: arrForCounts[id].date
+    })
+  });
+  let result = await responce.json();
+  arrForCounts = result.data;
   render();
 }
 
-const delItemOfSpend = (index) => {
-  arrForCounts.splice(index, 1);
+const delItemOfSpend = async (elem) => {
+  console.log(elem._id);
+  const responce = await fetch(`${url}/delOne?id=${elem._id}`, {
+    method: "DELETE"
+  });
+  const result = await responce.json();
+  arrForCounts = result.data;
   render();
 }

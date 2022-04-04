@@ -4,12 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "animate.css": "^4.1.1",
-    "cors": "^2.8.5",
-    "express": "^4.17.3",
-    "mongoose": "^6.2.9",
-    "node": "^17.7.2",
-    "underscore": "^1.13.2"
+    "animate.css": "^4.1.1"
   },
   "devDependencies": {},
   "scripts": {
