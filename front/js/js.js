@@ -117,18 +117,19 @@ const imgEditOnclick = (numBList, title, count, rData, container, id, idx) => {
   inpForTitle.value = title;
   inpForTitle.className = "inpForTitle";
   wrapForEdit.appendChild(inpForTitle);
-  const inpForNumValue = document.createElement("input");
-  inpForNumValue.placeholder = "Ведите новую сумму";
-  inpForNumValue.title = "Ведите новую сумму";
-  inpForNumValue.value = count;
-  inpForNumValue.className = "inpForNumValue";
-  wrapForEdit.appendChild(inpForNumValue);
+  wrapForEdit.appendChild(inpForTitle);
   const inpForDateEdit = document.createElement("input");
   inpForDateEdit.placeholder = "Ведите новую дату";
   inpForDateEdit.title = "Изменить дату";
   inpForDateEdit.value = rData.cloneNode(true).innerText;
   inpForDateEdit.className = "inpForDateEdit";
   wrapForEdit.appendChild(inpForDateEdit);
+  const inpForNumValue = document.createElement("input");
+  inpForNumValue.placeholder = "Ведите новую сумму";
+  inpForNumValue.title = "Ведите новую сумму";
+  inpForNumValue.value = count;
+  inpForNumValue.className = "inpForNumValue";
+  wrapForEdit.appendChild(inpForNumValue);
   const buttConfirm = document.createElement("button");
   buttConfirm.innerText = "Save";
   buttConfirm.localName = "buttConfirm";
@@ -151,7 +152,6 @@ const imgEditOnclick = (numBList, title, count, rData, container, id, idx) => {
 }
 
 const saveChanges = async (id) => {
-  console.log(arrForCounts[id]);
   const responce = await fetch(`${url}/updateCont`, {
     method: "PATCH",
     headers: {
@@ -171,7 +171,6 @@ const saveChanges = async (id) => {
 }
 
 const delItemOfSpend = async (elem) => {
-  console.log(elem._id);
   const responce = await fetch(`${url}/delOne?id=${elem._id}`, {
     method: "DELETE"
   });

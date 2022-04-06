@@ -18,7 +18,6 @@ module.exports.getAllCounts = (req, res) => {
 module.exports.updateInfoOneCount = (req, res) => {
   const body = req.body;
   const id = body._id;
-  console.log(id, body);
   Count.updateOne({ _id: id }, { $set: body }, () => {
     Count.find().then(result => {
       res.send({ data: result });

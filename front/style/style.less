@@ -4,6 +4,11 @@
 @radius: 5px;
 @shadow: 0 0 15px 1px #15151569;
 
+@font-face {
+  font-family: roboto;
+  src: url(../fonts/Roboto-Thin.ttf);
+}
+
 .dflex {
   display: flex;
 }
@@ -35,12 +40,14 @@ h1 {
   font-weight: 100;
   font-size: 3.5rem;
   margin-top: 0;
+  font-weight: 700;
+  font-family: roboto;
 }
 
 #wrapper {
   margin: 0 auto;
   max-width: 75rem;
-  min-width: 500px;
+  min-width: 435px;
   background-color: @wrapBG;
 }
 
@@ -68,6 +75,7 @@ h1 {
 
 .controlItems {
   justify-content: space-around;
+  align-items: center;
 }
 
 button {
@@ -152,11 +160,16 @@ button {
   }
 }
 
+#refData {
+  margin-top: -2rem;
+}
+
 .item {
   grid-template-columns: 1fr 8fr 4fr 3fr 1fr;
   grid-template-areas: "a b c d e";
   width: 100%;
   position: relative;
+  line-height: 4.8rem;
 
   span {
     font-size: 2.4rem;
@@ -229,13 +242,51 @@ button {
 @media (max-width:600px) {
   #calculations {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-template-areas: "a b";
+    grid-template-rows: 4.8rem 4.8rem 4.8rem;
+    margin: 0;
+  }
+
+  .fields {
+    width: calc(100% - 2rem);
+    margin-left: auto;
+
+    span {
+      font-size: .9rem;
+    }
+
+    input {
+      line-height: 2;
+
+    }
+  }
+
+  #refData {
+    margin-top: .5rem;
+
+    img {
+      height: 20px;
+    }
+  }
+
+  #control3 {
+    justify-content: end;
+    align-items: start;
+
+    button {
+      font-size: 1.2rem;
+      line-height: 1.8;
+    }
+  }
+
+  h1 {
+    margin-bottom: 0;
+    font-size: 2.2rem;
   }
 
   .item {
     grid-template-columns: 1fr 6fr 3fr;
-    grid-template-areas: "a b c";
+    grid-template-rows: 1.8rem;
+    line-height: 1.5;
 
     .date,
     .countNum {
@@ -257,6 +308,11 @@ button {
     grid-row: 2;
   }
 
+  .date,
+  .countNum {
+    font-size: 1.4rem !important;
+  }
+
   .date {
     grid-column: 3;
     grid-row: 1;
@@ -270,6 +326,8 @@ button {
   .controlItems {
     grid-column: 3;
     grid-row: 3;
+    margin-top: -.5rem;
+    justify-content: start;
   }
 
   .wrapForEdit {
