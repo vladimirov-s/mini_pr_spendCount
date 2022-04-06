@@ -1,7 +1,4 @@
-@font-face {
-  font-family: roboto;
-  src: url(../fonts/Roboto-Thin.ttf);
-}
+@import url(font.css);
 .dflex {
   display: flex;
 }
