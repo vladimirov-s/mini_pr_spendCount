@@ -103,12 +103,16 @@ button {
   margin-top: 2.5rem;
   white-space: nowrap;
 }
-#refData img {
+.controlItems svg {
+  height: inherit;
+  vertical-align: top;
+}
+#refData i {
   height: 30px;
   padding: 5px;
   cursor: pointer;
 }
-#refData img:hover {
+#refData i:hover {
   box-shadow: 0 0 15px 1px #15151569;
   border-radius: 5px;
 }
@@ -203,7 +207,7 @@ button {
   #refData {
     margin-top: 0.5rem;
   }
-  #refData img {
+  #refData i {
     height: 20px;
   }
   #control3 {

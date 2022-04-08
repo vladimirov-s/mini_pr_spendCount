@@ -1,11 +1,13 @@
-const User = require("../../db/models/counts/index");
+const Count = require("../../db/models/counts/index");
 
 module.exports.createOneCount = (req, res) => {
-  const body = new User(req.body);
+  const body = new Count(req.body);
   body.save().then(r => {
     Count.find().then(result => {
       res.send({ data: result })
     });
+  }).catch(err => {
+    res.send(["Извиняй, уважаемый Сергей. Ты ошибочку допустил:", { err }]);
   });
 };
 

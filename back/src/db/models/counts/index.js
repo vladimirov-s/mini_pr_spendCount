@@ -8,4 +8,4 @@ const countSchema = new Schema({
   date: String
 });
 
-module.exports = Count = mongoose.model("user", countSchema); 
+module.exports = Count = mongoose.model("count", countSchema); 
