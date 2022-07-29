@@ -1,18 +1,9 @@
-@import url(font.css);
-.dflex {
-  display: flex;
+@font-face {
+  font-family: roboto;
+  src: url(../fonts/Roboto-Thin.ttf);
 }
 .redBoxSh {
   box-shadow: 0 0 5px 1px #ff00008c;
-}
-.wrapWrap {
-  flex-wrap: wrap;
-}
-.dIgrid {
-  display: inline-grid;
-}
-.dGrid {
-  display: grid;
 }
 @media (prefers-color-scheme: dark) {
   body {
@@ -20,13 +11,14 @@
   }
 }
 h1 {
+  margin-block-end: 0.1em;
   text-align: center;
-  font-weight: 100;
   font-size: 3.5rem;
   margin-top: 0;
   font-weight: 700;
 }
 #wrapper {
+  padding: 5px;
   margin: 0 auto;
   max-width: 75rem;
   min-width: 435px;
@@ -34,6 +26,7 @@ h1 {
   font-family: roboto;
 }
 #calculations {
+  display: grid;
   width: calc(100% - 5.4rem);
   margin: 3.5rem auto 0 auto;
   grid-template-columns: 6fr 3fr 3fr;
@@ -71,7 +64,9 @@ button {
   border-radius: 5px;
 }
 .fields {
+  flex-wrap: wrap;
   align-items: center;
+  display: flex;
 }
 .fields span {
   flex: 100%;
@@ -107,28 +102,8 @@ button {
   height: inherit;
   vertical-align: top;
 }
-#refData i {
-  height: 30px;
-  padding: 5px;
-  cursor: pointer;
-}
-#refData i:hover {
-  box-shadow: 0 0 15px 1px #15151569;
-  border-radius: 5px;
-}
-.wrapForEdit {
-  justify-content: space-between;
-  position: absolute;
-  width: 100%;
-  background-color: #e2f3ff;
-}
-.wrapForEdit button {
-  min-width: 90px;
-}
-#refData {
-  margin-top: -2rem;
-}
-.item {
+#outputCont > div {
+  display: grid;
   grid-template-columns: 1fr 8fr 4fr 3fr 1fr;
   grid-template-areas: "a b c d e";
   width: 100%;
@@ -136,16 +111,42 @@ button {
   line-height: 4.8rem;
   font-weight: 500;
 }
-.item span {
+#outputCont > div span {
   font-size: 2.4rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   min-width: 3rem;
 }
-.item button,
-.item input {
+#outputCont > div button,
+#outputCont > div input {
   border-color: hsla(197, 77%, 63%, 0.336);
+}
+#outputCont > div div {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+#outputCont > div div svg {
+  height: inherit;
+  vertical-align: top;
+}
+#outputCont i {
+  height: 30px;
+  padding: 5px;
+  cursor: pointer;
+}
+#outputCont i:hover {
+  box-shadow: 0 0 15px 1px #15151569;
+  border-radius: 5px;
+}
+#outputCont div:nth-child(6) {
+  position: absolute;
+  width: 100%;
+  background-color: #e2f3ff;
+}
+#outputCont div:nth-child(6) button {
+  min-width: 90px;
 }
 @media (max-width: 1200px) {
   #calculations {
@@ -160,6 +161,7 @@ button {
 }
 @media (max-width: 850px) {
   #calculations {
+    margin: 0;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
     grid-template-areas: "a b c";

@@ -3,26 +3,14 @@
 @butCol: #79caab;
 @radius: 5px;
 @shadow: 0 0 15px 1px #15151569;
-@import url(font.css);
 
-.dflex {
-  display: flex;
+@font-face {
+  font-family: roboto;
+  src: url(../fonts/Roboto-Thin.ttf);
 }
 
 .redBoxSh {
   box-shadow: @reject;
-}
-
-.wrapWrap {
-  flex-wrap: wrap;
-}
-
-.dIgrid {
-  display: inline-grid;
-}
-
-.dGrid {
-  display: grid;
 }
 
 @media(prefers-color-scheme:dark) {
@@ -32,14 +20,15 @@
 }
 
 h1 {
+  margin-block-end: 0.1em;
   text-align: center;
-  font-weight: 100;
   font-size: 3.5rem;
   margin-top: 0;
   font-weight: 700;
 }
 
 #wrapper {
+  padding: 5px;
   margin: 0 auto;
   max-width: 75rem;
   min-width: 435px;
@@ -48,6 +37,7 @@ h1 {
 }
 
 #calculations {
+  display: grid;
   width: calc(100% - 5.4rem);
   margin: 3.5rem auto 0 auto;
   grid-template-columns: 6fr 3fr 3fr;
@@ -94,7 +84,9 @@ button {
 }
 
 .fields {
+  flex-wrap: wrap;
   align-items: center;
+  display: flex;
 
   span {
     flex: 100%;
@@ -139,7 +131,41 @@ button {
   }
 }
 
-#refData {
+#outputCont {
+  >div {
+    display: grid;
+    grid-template-columns: 1fr 8fr 4fr 3fr 1fr;
+    grid-template-areas: "a b c d e";
+    width: 100%;
+    position: relative;
+    line-height: 4.8rem;
+    font-weight: 500;
+
+    span {
+      font-size: 2.4rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 3rem
+    }
+
+    button,
+    input {
+      border-color: hsla(197, 77%, 63%, 0.336);
+    }
+
+    div {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      svg {
+        height: inherit;
+        vertical-align: top;
+      }
+    }
+  }
+
   i {
     height: 30px;
     padding: 5px;
@@ -150,42 +176,15 @@ button {
       border-radius: 5px;
     }
   }
-}
 
-.wrapForEdit {
-  justify-content: space-between;
-  position: absolute;
-  width: 100%;
-  background-color: @wrapBG;
+  div:nth-child(6) {
+    position: absolute;
+    width: 100%;
+    background-color: @wrapBG;
 
-  button {
-    min-width: 90px;
-  }
-}
-
-#refData {
-  margin-top: -2rem;
-}
-
-.item {
-  grid-template-columns: 1fr 8fr 4fr 3fr 1fr;
-  grid-template-areas: "a b c d e";
-  width: 100%;
-  position: relative;
-  line-height: 4.8rem;
-  font-weight: 500;
-
-  span {
-    font-size: 2.4rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    min-width: 3rem
-  }
-
-  button,
-  input {
-    border-color: hsla(197, 77%, 63%, 0.336);
+    button {
+      min-width: 90px;
+    }
   }
 }
 
@@ -207,6 +206,7 @@ button {
 
 @media (max-width:850px) {
   #calculations {
+    margin: 0;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
     grid-template-areas: "a b c";
