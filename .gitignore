@@ -1,2 +1,4 @@
-#
+.env
 .vscode
+frontend
+package-lock.json
