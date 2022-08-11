@@ -1,4 +1,4 @@
-const Count = require("../../models/count");
+const Count = require("../models/count");
 
 module.exports.createOneCount = (req, res) => {
   const body = new Count(req.body);
